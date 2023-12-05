@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2023-11-27T012:00:00Z">
+		<header>
+			<description>Language labels for instagram module</description>
+			<authorName>true-programming, Michael Semle</authorName>
+			<authorEmail>git@mikeproduction.de</authorEmail>
+		</header>
+		<body>
+			<trans-unit id="tca.tx_instagram_account.pallets.default.label">
+				<source>General</source>
+			</trans-unit>
+			<trans-unit id="tca.tx_instagram_account.columns.hidden.label">
+				<source>Hidden</source>
+			</trans-unit>
+			<trans-unit id="tca.tx_instagram_account.columns.name.label">
+				<source>Name</source>
+			</trans-unit>
+			<trans-unit id="tca.tx_instagram_account.columns.username.label">
+				<source>Username</source>
+			</trans-unit>
+			<trans-unit id="tca.tx_instagram_account.columns.app_id.label">
+				<source>App ID</source>
+			</trans-unit>
+			<trans-unit id="tca.tx_instagram_account.columns.app_secret.label">
+				<source>App secret</source>
+			</trans-unit>
+			<trans-unit id="tca.tx_instagram_account.columns.app_return_url.label">
+				<source>App return url</source>
+			</trans-unit>
+			<trans-unit id="tca.tx_instagram_account.columns.token_state.label">
+				<source>Token state</source>
+			</trans-unit>
+			<trans-unit id="tca.tx_instagram_account.columns.token_state.option.active.label">
+				<source>Token valid until %s</source>
+			</trans-unit>
+			<trans-unit id="tca.tx_instagram_account.columns.token_state.option.notAvailable.label">
+				<source>No Token available</source>
+			</trans-unit>
+			<trans-unit id="tca.tx_instagram_account.columns.token_state.option.notAvailable.button">
+				<source>Generate new token</source>
+			</trans-unit>
+			<trans-unit id="tca.tx_instagram_account.columns.token_state.option.revoke.button">
+				<source>Revoke token</source>
+			</trans-unit>
+
+			<trans-unit id="tca.tx_instagram_post.pallets.default.label">
+				<source>General</source>
+			</trans-unit>
+			<trans-unit id="tca.tx_instagram_post.columns.hidden.label">
+				<source>Hidden</source>
+			</trans-unit>
+			<trans-unit id="tca.tx_instagram_post.columns.caption.label">
+				<source>Caption</source>
+			</trans-unit>
+			<trans-unit id="tca.tx_instagram_post.columns.media_type.label">
+				<source>Media type</source>
+			</trans-unit>
+			<trans-unit id="tca.tx_instagram_post.columns.media_url.label">
+				<source>Media url</source>
+			</trans-unit>
+			<trans-unit id="tca.tx_instagram_post.columns.permalink.label">
+				<source>Permalink</source>
+			</trans-unit>
+			<trans-unit id="tca.tx_instagram_post.columns.timestamp.label">
+				<source>Date</source>
+			</trans-unit>
+			<trans-unit id="tca.tx_instagram_post.columns.instagram_id.label">
+				<source>Instagram ID</source>
+			</trans-unit>
+			<trans-unit id="tca.tx_instagram_post.columns.account.label">
+				<source>Account</source>
+			</trans-unit>
+			<trans-unit id="tca.tx_instagram_post.columns.image.label">
+				<source>Imported image</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

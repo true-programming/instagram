@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2023-11-27T012:00:00Z">
+		<header>
+			<description>Language labels for instagram module</description>
+			<authorName>true-programming, Michael Semle</authorName>
+			<authorEmail>git@mikeproduction.de</authorEmail>
+		</header>
+		<body>
+			<trans-unit id="button.hortcut.label">
+				<source>Instagram account management</source>
+				<target>Instagram Account Verwaltung</target>
+			</trans-unit>
+			<trans-unit id="button.new.label">
+				<source>new account</source>
+				<target>neuer Account</target>
+			</trans-unit>
+			<trans-unit id="message.import.ok.label">
+				<source>Import successful for account "%s"</source>
+				<target>Import erfolgreich für Account "%s"</target>
+			</trans-unit>
+			<trans-unit id="message.revokeToken.ok.label">
+				<source>Token successful revoked for account "%s"</source>
+				<target>Token erfolgreich entfernt für Account "%s"</target>
+			</trans-unit>
+
+			<trans-unit id="dashboard.show.headline.label">
+				<source>Instagram account management</source>
+				<target>Instagram Account Verwaltung</target>
+			</trans-unit>
+			<trans-unit id="dashboard.show.noAccounts.label">
+				<source>No accounts configured</source>
+				<target>Keine Accounts konfiguriert</target>
+			</trans-unit>
+			<trans-unit id="dashboard.show.edit.label">
+				<source>edit</source>
+				<source>bearbeiten</source>
+			</trans-unit>
+			<trans-unit id="dashboard.show.revoke.title">
+				<source>revoke token</source>
+				<target>token entfernen</target>
+			</trans-unit>
+			<trans-unit id="dashboard.show.import.title">
+				<source>import feed</source>
+				<target>Import Feed</target>
+			</trans-unit>
+			<trans-unit id="dashboard.show.tokenState.label">
+				<source>Token state</source>
+				<target>Token Status</target>
+			</trans-unit>
+			<trans-unit id="dashboard.show.tokenState.state.valid">
+				<source>Token valid</source>
+				<target>Token gültig</target>
+			</trans-unit>
+			<trans-unit id="dashboard.show.tokenState.state.invalid">
+				<source>Token invalid</source>
+				<target>Token ungültig</target>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

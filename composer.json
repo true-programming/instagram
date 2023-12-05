@@ -1,0 +1,35 @@
+{
+	"name": "trueprogramming/instagram",
+	"description": "Imports instagram posts from user and hashtags and manages tokens",
+	"type": "typo3-cms-extension",
+	"version": "1.0.0",
+	"license": [
+		"GPL-2.0-or-later"
+	],
+	"require": {
+		"typo3/cms-core": "^12",
+		"typo3/cms-backend": "^12",
+		"typo3/cms-fluid-styled-content": "^12"
+	},
+	"autoload": {
+		"psr-4": {
+			"Trueprogramming\\Instagram\\": "Classes/"
+		}
+	},
+	"extra": {
+		"typo3/cms": {
+			"extension-key": "instagram"
+		}
+	},
+	"require-dev": {
+		"typo3/coding-standards": "^0.7.1",
+		"phpstan/phpstan": "^1.10",
+		"saschaegerer/phpstan-typo3": "^1.9"
+	},
+	"config": {
+		"allow-plugins": {
+			"typo3/cms-composer-installers": true,
+			"typo3/class-alias-loader": true
+		}
+	}
+}

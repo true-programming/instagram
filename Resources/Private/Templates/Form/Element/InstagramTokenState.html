@@ -1,0 +1,42 @@
+<html
+    xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+    data-namespace-typo3-fluid="true">
+
+<f:if condition="{account.TokenState}">
+    <f:then>
+        <div class="alert alert-success">
+            <f:variable name="expireDateString" value="{token.expires -> f:format.date(format: 'd.m.Y H:i')}"/>
+
+            <strong>
+                <f:translate key="LLL:EXT:instagram/Resources/Private/Language/be_locallang.xlf:tca.tx_instagram_account.columns.token_state.option.active.label" arguments="{0: expireDateString}"/>
+            </strong>
+        </div>
+    </f:then>
+
+    <f:else>
+        <div class="alert alert-warning">
+            <strong>
+                <f:translate key="LLL:EXT:instagram/Resources/Private/Language/be_locallang.xlf:tca.tx_instagram_account.columns.token_state.option.notAvailable.label"/>
+            </strong>
+
+            <f:if condition="{authenticationUri}">
+                <f:then>
+                    <br/>
+                    <br/>
+                    <f:link.typolink parameter="{authenticationUri}" target="_blank" class="btn btn-info">
+                        <f:translate key="LLL:EXT:instagram/Resources/Private/Language/be_locallang.xlf:tca.tx_instagram_account.columns.token_state.option.notAvailable.button"/>
+                    </f:link.typolink>
+                </f:then>
+
+                <f:else>
+                    <br/>
+                    <div>
+                        <f:translate key="LLL:EXT:instagram/Resources/Private/Language/be_locallang.xlf:tca.tx_instagram_account.columns.token_state.option.requiredFields.label"/>
+                    </div>
+                </f:else>
+            </f:if>
+        </div>
+    </f:else>
+</f:if>
+
+</html>

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2023-11-27T012:00:00Z">
+		<header>
+			<description>Language labels for instagram module</description>
+			<authorName>true-programming, Michael Semle</authorName>
+			<authorEmail>git@mikeproduction.de</authorEmail>
+		</header>
+		<body>
+			<trans-unit id="tca.tx_instagram_account.pallets.default.label">
+				<source>General</source>
+				<target>Allgemein</target>
+			</trans-unit>
+			<trans-unit id="tca.tx_instagram_account.columns.hidden.label">
+				<source>Hidden</source>
+				<target>Versteckt</target>
+			</trans-unit>
+			<trans-unit id="tca.tx_instagram_account.columns.name.label">
+				<source>Name</source>
+				<target>Name</target>
+			</trans-unit>
+			<trans-unit id="tca.tx_instagram_account.columns.username.label">
+				<source>Username</source>
+				<target>Username</target>
+			</trans-unit>
+			<trans-unit id="tca.tx_instagram_account.columns.app_id.label">
+				<source>App ID</source>
+				<target>App ID</target>
+			</trans-unit>
+			<trans-unit id="tca.tx_instagram_account.columns.app_secret.label">
+				<source>App secret</source>
+				<target>App secret</target>
+			</trans-unit>
+			<trans-unit id="tca.tx_instagram_account.columns.app_return_url.label">
+				<source>App return url</source>
+				<target>App return url</target>
+			</trans-unit>
+			<trans-unit id="tca.tx_instagram_account.columns.token_state.label">
+				<source>Token state</source>
+				<target>Token Status</target>
+			</trans-unit>
+			<trans-unit id="tca.tx_instagram_account.columns.token_state.option.active.label">
+				<source>Token valid until %s</source>
+				<target>Token valide bis %s</target>
+			</trans-unit>
+			<trans-unit id="tca.tx_instagram_account.columns.token_state.option.notAvailable.label">
+				<source>No Token available</source>
+				<target>Kein Token verfügbar</target>
+			</trans-unit>
+			<trans-unit id="tca.tx_instagram_account.columns.token_state.option.notAvailable.button">
+				<source>Generate new token</source>
+				<target>Neuen Token generieren</target>
+			</trans-unit>
+			<trans-unit id="tca.tx_instagram_account.columns.token_state.option.revoke.button">
+				<source>Revoke token</source>
+				<target>Token zurücksetzen</target>
+			</trans-unit>
+			<trans-unit id="tca.tx_instagram_account.columns.token_state.option.requiredFields.label">
+				<source>Please fill out all required fields to generate token</source>
+				<target>Bitte füllen Sie alle Pflichtfelder aus um einen Token zu generieren</target>
+			</trans-unit>
+
+			<trans-unit id="tca.tx_instagram_post.pallets.default.label">
+				<source>General</source>
+				<target>Allgemein</target>
+			</trans-unit>
+			<trans-unit id="tca.tx_instagram_post.columns.hidden.label">
+				<source>Hidden</source>
+				<target>Versteckt</target>
+			</trans-unit>
+			<trans-unit id="tca.tx_instagram_post.columns.caption.label">
+				<source>Caption</source>
+				<target>Bild Unterschrift</target>
+			</trans-unit>
+			<trans-unit id="tca.tx_instagram_post.columns.media_type.label">
+				<source>Media type</source>
+				<target>Media Typ</target>
+			</trans-unit>
+			<trans-unit id="tca.tx_instagram_post.columns.media_url.label">
+				<source>Media url</source>
+				<target>Media Link</target>
+			</trans-unit>
+			<trans-unit id="tca.tx_instagram_post.columns.permalink.label">
+				<source>Permalink</source>
+				<target>Direkt Link</target>
+			</trans-unit>
+			<trans-unit id="tca.tx_instagram_post.columns.timestamp.label">
+				<source>Date</source>
+				<target>Datum</target>
+			</trans-unit>
+			<trans-unit id="tca.tx_instagram_post.columns.instagram_id.label">
+				<source>Instagram ID</source>
+				<target>Instagram ID</target>
+			</trans-unit>
+			<trans-unit id="tca.tx_instagram_post.columns.account.label">
+				<source>Account</source>
+				<target>Account</target>
+			</trans-unit>
+			<trans-unit id="tca.tx_instagram_post.columns.image.label">
+				<source>Imported image</source>
+				<target>Importiertes Bild</target>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>
