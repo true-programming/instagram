@@ -8,7 +8,12 @@ TYPO3 extension to import instagram posts from user accounts.
 ## Usage
 * If not available, create a facebook developer account
 * Kickstart a facebook app with basic instagram graph api
-* Create new account in
+* Create new account record in the instagram module
+* Fill out all fields
+* After saving, click link to create a token
+* Login into instagram
+* After coming back to your site, the record should have a valid token
+* In the dashboard click the import button
 
 ## How to install this extension?
 
