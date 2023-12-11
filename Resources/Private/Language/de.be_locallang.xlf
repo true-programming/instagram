@@ -97,8 +97,16 @@
 				<target>Account</target>
 			</trans-unit>
 			<trans-unit id="tca.tx_instagram_post.columns.image.label">
-				<source>Imported image</source>
-				<target>Importiertes Bild</target>
+				<source>Imported media</source>
+				<target>Importierte Medien</target>
+			</trans-unit>
+			<trans-unit id="tca.tx_instagram_post.columns.thumbnail.label">
+				<source>Imported thumbnail</source>
+				<target>Importierte Vorschaubilder</target>
+			</trans-unit>
+			<trans-unit id="tca.tx_instagram_post.columns.thumbnail_url.label">
+				<source>Thumbnail Url</source>
+				<target>Thumbnail Url</target>
 			</trans-unit>
 		</body>
 	</file>

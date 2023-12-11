@@ -30,7 +30,7 @@ return [
         'caption' => [
             'label' => 'LLL:EXT:instagram/Resources/Private/Language/be_locallang.xlf:tca.tx_instagram_post.columns.caption.label',
             'config' => [
-                'type' => 'input',
+                'type' => 'text',
                 'readOnly' => true,
             ],
         ],
@@ -43,6 +43,13 @@ return [
         ],
         'media_url' => [
             'label' => 'LLL:EXT:instagram/Resources/Private/Language/be_locallang.xlf:tca.tx_instagram_post.columns.media_url.label',
+            'config' => [
+                'type' => 'input',
+                'readOnly' => true,
+            ],
+        ],
+        'thumbnail_url' => [
+            'label' => 'LLL:EXT:instagram/Resources/Private/Language/be_locallang.xlf:tca.tx_instagram_post.columns.thumbnail_url.label',
             'config' => [
                 'type' => 'input',
                 'readOnly' => true,
@@ -79,12 +86,54 @@ return [
                 'readOnly' => true,
             ],
         ],
-        'image' => [
-            'label' => 'LLL:EXT:instagram/Resources/Private/Language/be_locallang.xlf:tca.tx_instagram_post.columns.image.label',
+        'media' => [
+            'label' => 'LLL:EXT:instagram/Resources/Private/Language/be_locallang.xlf:tca.tx_instagram_post.columns.media.label',
             'config' => [
                 'type' => 'file',
                 'maxitems' => 1,
-                'allowed' => 'common-image-types',
+                'allowed' => '*',
+                'readOnly' => true,
+                'overrideChildTca' => [
+                    'types' => [
+                        0 => [
+                            'showitem' => '
+                                --palette--;;filePalette
+                            ',
+                        ],
+                        \TYPO3\CMS\Core\Resource\File::FILETYPE_TEXT => [
+                            'showitem' => '
+                                --palette--;;filePalette
+                            ',
+                        ],
+                        \TYPO3\CMS\Core\Resource\File::FILETYPE_IMAGE => [
+                            'showitem' => '
+                                --palette--;;filePalette
+                            ',
+                        ],
+                        \TYPO3\CMS\Core\Resource\File::FILETYPE_AUDIO => [
+                            'showitem' => '
+                                --palette--;;filePalette
+                            ',
+                        ],
+                        \TYPO3\CMS\Core\Resource\File::FILETYPE_VIDEO => [
+                            'showitem' => '
+                                --palette--;;filePalette
+                            ',
+                        ],
+                        \TYPO3\CMS\Core\Resource\File::FILETYPE_APPLICATION => [
+                            'showitem' => '
+                                --palette--;;filePalette
+                            ',
+                        ],
+                    ],
+                ],
+            ],
+        ],
+        'thumbnail' => [
+            'label' => 'LLL:EXT:instagram/Resources/Private/Language/be_locallang.xlf:tca.tx_instagram_post.columns.thumbnail.label',
+            'config' => [
+                'type' => 'file',
+                'maxitems' => 1,
                 'readOnly' => true,
                 'overrideChildTca' => [
                     'types' => [
@@ -139,7 +188,8 @@ return [
                 instagram_id,
                 account,
                 --linebreak--,
-                image,
+                media,
+                thumbnail,
             ',
         ],
     ],

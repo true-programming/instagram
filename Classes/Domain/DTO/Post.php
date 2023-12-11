@@ -18,6 +18,7 @@ class Post
         protected string $caption,
         protected string $mediaType,
         protected string $mediaUrl,
+        protected string $thumbnailUrl,
         protected string $permalink,
         protected int $timestamp,
         protected string $instagramId,
@@ -30,6 +31,7 @@ class Post
             $data['caption'] ?? '',
             $data['media_type'],
             $data['media_url'],
+            $data['thumbnail_url'] ?? '',
             $data['permalink'],
             (new \DateTime($data['timestamp']))->getTimestamp(),
             $data['id'],
@@ -103,12 +105,18 @@ class Post
         return $this->account;
     }
 
+    public function getThumbnailUrl(): string
+    {
+        return $this->thumbnailUrl;
+    }
+
     public function toArray(): array
     {
         return [
             'caption' => $this->getParsedCaption(),
             'media_type' => $this->mediaType,
             'media_url' => $this->mediaUrl,
+            'thumbnail_url' => $this->thumbnailUrl,
             'permalink' => $this->permalink,
             'timestamp' => $this->timestamp,
             'instagram_id' => $this->instagramId,

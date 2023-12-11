@@ -15,8 +15,8 @@ namespace Trueprogramming\Instagram\Domain\Model;
 class Post
 {
     private const POST_MEDIA_VIDEO = 'VIDEO';
-    private const FILE_TYPE_IMAGE = '.jpg';
-    private const FILE_TYPE_VIDEO = '.mov';
+    public const FILE_TYPE_IMAGE = '.jpg';
+    private const FILE_TYPE_VIDEO = '.mp4';
 
     public function __construct(
         protected int $uid,
@@ -25,6 +25,7 @@ class Post
         protected string $caption,
         protected string $mediaType,
         protected string $mediaUrl,
+        protected string $thumbnailUrl,
         protected string $permalink,
         protected int $timestamp,
         protected string $instagramId,
@@ -40,6 +41,7 @@ class Post
             $post['caption'],
             $post['media_type'],
             $post['media_url'],
+            $post['thumbnail_url'],
             $post['permalink'],
             $post['timestamp'],
             $post['instagram_id'],
@@ -97,6 +99,11 @@ class Post
         return $this->account;
     }
 
+    public function getThumbnailUrl(): string
+    {
+        return $this->thumbnailUrl;
+    }
+
     public function getFileType(): string
     {
         return match ($this->getMediaType()) {
@@ -114,10 +121,16 @@ class Post
             'caption' => $this->caption,
             'mediaType' => $this->mediaType,
             'mediaUrl' => $this->mediaUrl,
+            'thumbnailUrl' => $this->thumbnailUrl,
             'permaLink' => $this->permalink,
             'timestamp' => $this->timestamp,
             'instagramId' => $this->instagramId,
             'account' => $this->account,
         ];
+    }
+
+    public function hasThumbnail(): bool
+    {
+        return $this->thumbnailUrl !== '';
     }
 }

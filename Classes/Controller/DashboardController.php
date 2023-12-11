@@ -19,7 +19,7 @@ use Trueprogramming\Instagram\Domain\Repository\AccountRepository;
 use Trueprogramming\Instagram\Domain\Repository\PostRepository;
 use Trueprogramming\Instagram\Domain\Repository\TokenRepository;
 use Trueprogramming\Instagram\Instagram\Client;
-use Trueprogramming\Instagram\Instagram\Images;
+use Trueprogramming\Instagram\Instagram\Files;
 use Trueprogramming\Instagram\Instagram\TokenState;
 use TYPO3\CMS\Backend\Attribute\Controller;
 use TYPO3\CMS\Backend\Routing\RouteResult;
@@ -30,6 +30,7 @@ use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
 use TYPO3\CMS\Core\Http\RedirectResponse;
 use TYPO3\CMS\Core\Imaging\IconFactory;
 use TYPO3\CMS\Core\Page\PageRenderer;
+use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
@@ -46,7 +47,7 @@ final class DashboardController extends ActionController
         protected TokenRepository $tokenRepository,
         protected PostRepository $postRepository,
         protected Client $client,
-        protected Images $images,
+        protected Files $files,
         protected UriBuilder $backendUriBuilder,
     ) {}
 
@@ -109,26 +110,34 @@ final class DashboardController extends ActionController
         $token = $this->tokenRepository->findByUid($account->getUid());
         $feed = $this->client->getFeedFromUserId($token['token'], $token['user_id']);
 
+        $errors = false;
         foreach ($feed['data'] as $feedItem) {
             $existingPost = $this->postRepository->findByInstagramId($feedItem['id']);
-
             $feedPost = Post::fromFeed($feedItem, $account->getUid());
 
-            if ($existingPost) {
-                $this->postRepository->update($existingPost->getUid(), $feedPost);
-            } else {
-                $newId = $this->postRepository->add($feedPost);
-                $newPost = $this->postRepository->findByUid($newId);
+            try {
+                if ($existingPost) {
+                    $this->postRepository->update($existingPost->getUid(), $feedPost);
+                } else {
+                    $newId = $this->postRepository->add($feedPost);
+                    $newPost = $this->postRepository->findByUid($newId);
 
-                if ($newPost === null) {
-                    continue;
+                    if ($newPost === null) {
+                        continue;
+                    }
+
+                    $this->files->import($newPost);
                 }
-
-                $this->images->importImage($newPost);
+            } catch (\Exception $e) {
+                $errors = true;
             }
         }
 
-        $this->addFlashMessage(LocalizationUtility::translate('message.import.ok.label', 'instagram', [$account->getName()]));
+        if ($errors) {
+            $this->addFlashMessage(LocalizationUtility::translate('message.import.warning.label', 'instagram', [$account->getName()]), '', ContextualFeedbackSeverity::WARNING);
+        } else {
+            $this->addFlashMessage(LocalizationUtility::translate('message.import.ok.label', 'instagram', [$account->getName()]));
+        }
 
         return new RedirectResponse($this->uriBuilder->uriFor('show'));
     }

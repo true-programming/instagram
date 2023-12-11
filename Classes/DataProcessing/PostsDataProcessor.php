@@ -36,9 +36,15 @@ class PostsDataProcessor implements DataProcessorInterface
         $processedPosts = [];
         /** @var Post $post */
         foreach ($posts as $post) {
-            $file = $this->fileRepository->findByRelation(PostRepository::TABLE, 'image', $post->getUid());
             $processedPosts[$post->getUid()] = $post->toArray();
-            $processedPosts[$post->getUid()]['image'] = $file;
+
+            $media = $this->fileRepository->findByRelation(PostRepository::TABLE, 'media', $post->getUid());
+            $processedPosts[$post->getUid()]['media'] = $media;
+
+            if ($post->hasThumbnail()) {
+                $thumbnail = $this->fileRepository->findByRelation(PostRepository::TABLE, 'thumbnail', $post->getUid());
+                $processedPosts[$post->getUid()]['thumbnail'] = $thumbnail;
+            }
         }
 
         $processedData['posts'] = $processedPosts;

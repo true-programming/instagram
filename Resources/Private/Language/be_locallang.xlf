@@ -71,8 +71,14 @@
 			<trans-unit id="tca.tx_instagram_post.columns.account.label">
 				<source>Account</source>
 			</trans-unit>
-			<trans-unit id="tca.tx_instagram_post.columns.image.label">
-				<source>Imported image</source>
+			<trans-unit id="tca.tx_instagram_post.columns.media.label">
+				<source>Imported media</source>
+			</trans-unit>
+			<trans-unit id="tca.tx_instagram_post.columns.thumbnail.label">
+				<source>Imported thumbnail</source>
+			</trans-unit>
+			<trans-unit id="tca.tx_instagram_post.columns.thumbnail_url.label">
+				<source>Thumbnail Url</source>
 			</trans-unit>
 		</body>
 	</file>
