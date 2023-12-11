@@ -91,7 +91,7 @@ return [
             'config' => [
                 'type' => 'file',
                 'maxitems' => 1,
-                'allowed' => '*',
+                'allowed' => ['jpg', 'mp4'],
                 'readOnly' => true,
                 'overrideChildTca' => [
                     'types' => [
