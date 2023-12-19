@@ -91,13 +91,16 @@ class PostRepository
         return \Trueprogramming\Instagram\Domain\Model\Post::fromDB($result);
     }
 
-    public function findLatest(int $amount): ObjectStorage
+    public function findLatestForAccount(int $accountUid, int $amount): ObjectStorage
     {
         $objects = new ObjectStorage();
         $qb = $this->getQueryBuilder();
         $results = $qb
             ->select('*')
             ->from(self::TABLE)
+            ->where(
+                $qb->expr()->eq('account', $qb->createNamedParameter($accountUid, \PDO::PARAM_INT))
+            )
             ->orderBy('timestamp', 'DESC')
             ->setMaxResults($amount)
             ->executeQuery()

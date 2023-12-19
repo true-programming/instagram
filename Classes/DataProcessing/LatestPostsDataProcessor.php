@@ -18,7 +18,7 @@ use TYPO3\CMS\Core\Resource\FileRepository;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Frontend\ContentObject\DataProcessorInterface;
 
-class PostsDataProcessor implements DataProcessorInterface
+class LatestPostsDataProcessor implements DataProcessorInterface
 {
     public function __construct(
         protected PostRepository $postRepository,
@@ -31,7 +31,9 @@ class PostsDataProcessor implements DataProcessorInterface
         array $processorConfiguration,
         array $processedData
     ): array {
-        $posts = $this->postRepository->findLatest(6);
+        $account = (int)$cObj->stdWrapValue('account', $processorConfiguration);
+        $limit = (int)$cObj->stdWrapValue('limit', $processorConfiguration);
+        $posts = $this->postRepository->findLatestForAccount($account, $limit);
 
         $processedPosts = [];
         /** @var Post $post */
