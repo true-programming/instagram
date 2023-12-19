@@ -41,7 +41,7 @@
 			</trans-unit>
 			<trans-unit id="tca.tx_instagram_account.columns.token_state.option.active.label">
 				<source>Token valid until %s</source>
-				<target>Token valide bis %s</target>
+				<target>Token gültig bis %s</target>
 			</trans-unit>
 			<trans-unit id="tca.tx_instagram_account.columns.token_state.option.notAvailable.label">
 				<source>No Token available</source>

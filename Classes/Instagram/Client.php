@@ -24,6 +24,7 @@ class Client
     private const INSTAGRAM_API_ACCESS_TOKEN_PATH = 'oauth/access_token';
     private const INSTAGRAM_GRAPH_ACCESS_TOKEN_PATH = 'access_token';
     private const INSTAGRAM_GRAPH_MEDIA_PATH = 'media';
+    private const INSTAGRAM_REFRESH_TOKEN_PATH = 'refresh_access_token';
 
     public function __construct(
         protected RequestFactory $requestFactory
@@ -104,6 +105,27 @@ class Client
 
         if (!isset($result['data'][0])) {
             throw new \Exception('No instagram posts in feed', 1701280939);
+        }
+
+        return $result;
+    }
+
+    public function getRefreshToken(string $token): array
+    {
+        $uri = (new Uri(self::INSTAGRAM_GRAPH_URI))
+            ->withPath(self::INSTAGRAM_REFRESH_TOKEN_PATH)
+            ->withQuery('grant_type=ig_refresh_token&access_token=' . $token);
+
+        $request = $this->requestFactory->request((string)$uri);
+
+        if ($request->getStatusCode() !== 200) {
+            throw new \Exception('Could not refresh token', 1703020071);
+        }
+
+        $result = json_decode($request->getBody()->getContents(), true);
+
+        if (empty($result['access_token']) || empty($result['expires_in'])) {
+            throw new \Exception('Instagram api error: No token in result', 1703020491);
         }
 
         return $result;

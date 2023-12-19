@@ -13,3 +13,15 @@ services:
 
   Trueprogramming\Instagram\DataProcessing\PostsDataProcessor:
     public: true
+
+  Trueprogramming\Instagram\Command\ImportCommand:
+    tags:
+      - name: 'console.command'
+        command: 'instagram:import'
+        description: 'Imports feeds of all configured accounts'
+
+  Trueprogramming\Instagram\Command\RefreshTokenCommand:
+    tags:
+      - name: 'console.command'
+        command: 'instagram:refreshToken'
+        description: 'Refresh token for account'

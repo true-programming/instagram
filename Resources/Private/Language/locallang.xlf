@@ -19,6 +19,9 @@
 			<trans-unit id="message.import.warning.label">
 				<source>Some posts could not be imported for account "%s"</source>
 			</trans-unit>
+			<trans-unit id="message.import.error.label">
+				<source>Feed could not be imported for account "%s"</source>
+			</trans-unit>
 			<trans-unit id="message.revokeToken.ok.label">
 				<source>Token successful revoked for account "%s"</source>
 			</trans-unit>

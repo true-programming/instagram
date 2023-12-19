@@ -27,6 +27,10 @@
 				<source>Some posts could not be imported for account "%s"</source>
 				<target>Einige posts konntent nicht importiert werden für Account "%s"</target>
 			</trans-unit>
+			<trans-unit id="message.import.error.label">
+				<source>Feed could not be imported for account "%s"</source>
+				<target>Feed konnte nicht importiert werden für Account "%s"</target>
+			</trans-unit>
 
 			<trans-unit id="dashboard.show.headline.label">
 				<source>Instagram account management</source>
