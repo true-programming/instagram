@@ -11,7 +11,7 @@ services:
   Trueprogramming\Instagram\Domain\Repository\TokenRepository:
     public: true
 
-  Trueprogramming\Instagram\DataProcessing\PostsDataProcessor:
+  Trueprogramming\Instagram\DataProcessing\LatestPostsDataProcessor:
     public: true
 
   Trueprogramming\Instagram\Command\ImportCommand:
