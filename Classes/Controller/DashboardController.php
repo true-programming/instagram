@@ -24,10 +24,12 @@ use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Backend\Template\Components\Buttons\GenericButton;
 use TYPO3\CMS\Backend\Template\ModuleTemplate;
 use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
+use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Http\RedirectResponse;
 use TYPO3\CMS\Core\Imaging\IconFactory;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
@@ -53,6 +55,7 @@ final class DashboardController extends ActionController
 
     private function setUpDocHeader(ServerRequestInterface $request): void
     {
+        $rootpage = $this->getRootpage() ?? 0;
         $buttonBar = $this->moduleTemplate->getDocHeaderComponent()->getButtonBar();
 
         $showLink = $this->backendUriBuilder->buildUriFromRoute('trueprogramming-instagram');
@@ -61,7 +64,7 @@ final class DashboardController extends ActionController
             [
                 'edit' => [
                     AccountRepository::TABLE => [
-                        0 => 'new',
+                        $rootpage => 'new',
                     ],
                 ],
                 'returnUrl' => $showLink,
@@ -127,5 +130,27 @@ final class DashboardController extends ActionController
         $this->addFlashMessage(LocalizationUtility::translate('message.revokeToken.ok.label', 'instagram', [$account->getName()]));
 
         return new RedirectResponse($this->uriBuilder->reset()->uriFor('show'));
+    }
+
+    private function getRootpage(): ?int
+    {
+        $qb = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('pages');
+        $rootpages = $qb
+            ->select('*')
+            ->from('pages')
+            ->where(
+                $qb->expr()->eq('pid', 0)
+            )
+            ->executeQuery()
+            ->fetchAllAssociative();
+
+        $backendUser = $GLOBALS['BE_USER'];
+        foreach ($rootpages as $rootpage) {
+            if ($backendUser->doesUserHaveAccess($rootpage, 2)) {
+                return $rootpage['uid'];
+            }
+        }
+
+        return null;
     }
 }
