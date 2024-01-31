@@ -1,6 +1,6 @@
 {
 	"name": "trueprogramming/instagram",
-	"description": "Imports instagram posts from user and hashtags and manages tokens",
+	"description": "Extension to import instagram posts from user accounts and refresh tokens.",
 	"type": "typo3-cms-extension",
 	"license": [
 		"GPL-2.0-or-later"
