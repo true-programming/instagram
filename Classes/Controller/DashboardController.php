@@ -14,6 +14,7 @@ namespace Trueprogramming\Instagram\Controller;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Trueprogramming\Instagram\Domain\Model\Account;
 use Trueprogramming\Instagram\Domain\Repository\AccountRepository;
 use Trueprogramming\Instagram\Domain\Repository\TokenRepository;
 use Trueprogramming\Instagram\Instagram\Feed;
@@ -24,12 +25,12 @@ use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Backend\Template\Components\Buttons\GenericButton;
 use TYPO3\CMS\Backend\Template\ModuleTemplate;
 use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
-use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
+use TYPO3\CMS\Core\Domain\Repository\PageRepository;
 use TYPO3\CMS\Core\Http\RedirectResponse;
 use TYPO3\CMS\Core\Imaging\IconFactory;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
@@ -37,6 +38,7 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 final class DashboardController extends ActionController
 {
     protected ModuleTemplate $moduleTemplate;
+    protected BackendUserAuthentication $backendUserAuthentication;
 
     public function __construct(
         protected ModuleTemplateFactory $moduleTemplateFactory,
@@ -46,16 +48,18 @@ final class DashboardController extends ActionController
         protected TokenRepository $tokenRepository,
         protected UriBuilder $backendUriBuilder,
         protected Feed $feed,
+        protected PageRepository $pageRepository,
     ) {}
 
     public function initializeAction(): void
     {
         $this->moduleTemplate = $this->moduleTemplateFactory->create($this->request);
+        $this->backendUserAuthentication = $GLOBALS['BE_USER'];
     }
 
     private function setUpDocHeader(ServerRequestInterface $request): void
     {
-        $rootpage = $this->getRootpage() ?? 0;
+        $rootpage = $this->getFirstRootpage() ?? 0;
         $buttonBar = $this->moduleTemplate->getDocHeaderComponent()->getButtonBar();
 
         $showLink = $this->backendUriBuilder->buildUriFromRoute('trueprogramming-instagram');
@@ -95,6 +99,13 @@ final class DashboardController extends ActionController
         $this->setUpDocHeader($this->request);
         $accounts = $this->accountRepository->findAll();
 
+        /** @var Account $account */
+        foreach ($accounts as $account) {
+            if ($this->checkAccessForPage($account->getPid()) === false) {
+                $accounts->detach($account);
+            }
+        }
+
         $this->view->assign('accounts', $accounts);
         $this->view->assign('returnUrl', $this->uriBuilder->reset()->uriFor('show'));
         $this->view->assign('returnUrl', $this->uriBuilder->reset()->uriFor('show'));
@@ -132,25 +143,27 @@ final class DashboardController extends ActionController
         return new RedirectResponse($this->uriBuilder->reset()->uriFor('show'));
     }
 
-    private function getRootpage(): ?int
+    private function getFirstRootpage(): ?int
     {
-        $qb = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('pages');
-        $rootpages = $qb
-            ->select('*')
-            ->from('pages')
-            ->where(
-                $qb->expr()->eq('pid', 0)
-            )
-            ->executeQuery()
-            ->fetchAllAssociative();
-
-        $backendUser = $GLOBALS['BE_USER'];
+        $rootpages = $this->pageRepository->getMenu(0, 'uid', 'sorting', '', false);
         foreach ($rootpages as $rootpage) {
-            if ($backendUser->doesUserHaveAccess($rootpage, 2)) {
+            if ($this->checkAccessForPage($rootpage['uid'])) {
                 return $rootpage['uid'];
             }
         }
 
         return null;
+    }
+
+    private function checkAccessForPage(int $uid): bool
+    {
+        /** @var array|null $page */
+        $page = $this->pageRepository->getPage($uid);
+
+        if ($page === null) {
+            return false;
+        }
+
+        return $this->backendUserAuthentication->doesUserHaveAccess($page, 1);
     }
 }
