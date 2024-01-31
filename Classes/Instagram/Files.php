@@ -15,6 +15,8 @@ namespace Trueprogramming\Instagram\Instagram;
 use Trueprogramming\Instagram\Domain\Model\Post;
 use Trueprogramming\Instagram\Domain\Repository\PostRepository;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
+use TYPO3\CMS\Core\Resource\FileReference;
+use TYPO3\CMS\Core\Resource\FileRepository;
 use TYPO3\CMS\Core\Resource\ResourceStorage;
 use TYPO3\CMS\Core\Resource\StorageRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -27,7 +29,8 @@ class Files
     protected array $data = [];
 
     public function __construct(
-        protected DataHandler $dataHandler
+        protected DataHandler $dataHandler,
+        protected FileRepository $fileRepository
     ) {}
 
     public function import(Post $post): void
@@ -73,8 +76,16 @@ class Files
         $fileObject = $folder->createFile($fileName);
         $fileObject->setContents($fileContent);
 
-        $newId = StringUtility::getUniqueId('NEW');
-        $this->data['sys_file_reference'][$newId] = [
+        $existingFiles = $this->fileRepository->findByRelation(PostRepository::TABLE, $fieldName, $post->getUid());
+        $fileId = StringUtility::getUniqueId('NEW');
+
+        if ($existingFiles) {
+            /** @var FileReference $file */
+            $file = $existingFiles[0];
+            $fileId = (string)$file->getUid();
+        }
+
+        $this->data['sys_file_reference'][$fileId] = [
             'uid_local' => $fileObject->getUid(),
             'tablenames' => 'tx_instagram_post',
             'uid_foreign' => $post->getUid(),
@@ -82,6 +93,6 @@ class Files
             'pid' => $post->getPid(),
         ];
 
-        return $newId;
+        return $fileId;
     }
 }
