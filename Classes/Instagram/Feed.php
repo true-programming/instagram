@@ -17,15 +17,19 @@ use Trueprogramming\Instagram\Domain\Model\Account;
 use Trueprogramming\Instagram\Domain\Repository\AccountRepository;
 use Trueprogramming\Instagram\Domain\Repository\PostRepository;
 use Trueprogramming\Instagram\Domain\Repository\TokenRepository;
+use TYPO3\CMS\Core\Cache\CacheManager;
 
 class Feed
 {
+    public const CACHE_TAG = 'tx_instagram_feed';
+
     public function __construct(
         protected AccountRepository $accountRepository,
         protected TokenRepository $tokenRepository,
         protected PostRepository $postRepository,
         protected Files $files,
         protected Client $client,
+        protected CacheManager $cacheManager,
     ) {}
 
     public function import(Account $account): bool
@@ -56,6 +60,8 @@ class Feed
                 $errors = true;
             }
         }
+
+        $this->cacheManager->flushCachesByTag(self::CACHE_TAG);
 
         return $errors;
     }
