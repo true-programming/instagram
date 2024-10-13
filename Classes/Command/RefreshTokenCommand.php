@@ -12,6 +12,7 @@ namespace Trueprogramming\Instagram\Command;
  * of the License, or any later version.
  */
 
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -26,6 +27,7 @@ class RefreshTokenCommand extends Command
         protected AccountRepository $accountRepository,
         protected TokenRepository $tokenRepository,
         protected Client $client,
+        private readonly LoggerInterface $logger,
         string $name = null
     ) {
         parent::__construct($name);
@@ -51,7 +53,10 @@ class RefreshTokenCommand extends Command
             $expireDate = new \DateTime();
             $expireDate->modify('+ ' . $tokenResult['expires_in'] . ' seconds');
             $this->tokenRepository->add($account->getUid(), ['token' => $tokenResult['access_token'], 'expires' => $expireDate->getTimestamp(), 'user_id' => $token['user_id']]);
+
+            $this->logger->info('Refresh token successfully updated');
         } catch (\Exception $e) {
+            $this->logger->error($e->getMessage());
             return Command::FAILURE;
         }
 
