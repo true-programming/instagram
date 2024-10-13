@@ -22,6 +22,7 @@ TYPO3 extension to import instagram posts from user accounts and refresh tokens.
 * CLI command to import feeds of all configured accounts
 * CLI command to refresh account tokens
 * Cache tag `tx_instagram_feed` that gets flushed after import of feeds. The tag can be added to content elements and pages to ensure, new posts appear as soon as they were imported.
+* Event triggered when commands fail. A listener can be build, to get notifications the way you want.
 
 ## How to install this extension?
 
