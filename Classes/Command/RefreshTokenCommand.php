@@ -12,13 +12,14 @@ namespace Trueprogramming\Instagram\Command;
  * of the License, or any later version.
  */
 
-use Psr\Log\LoggerInterface;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Trueprogramming\Instagram\Domain\Repository\AccountRepository;
 use Trueprogramming\Instagram\Domain\Repository\TokenRepository;
+use Trueprogramming\Instagram\Event\NotificationOnCommandExecutionFailureEvent;
 use Trueprogramming\Instagram\Instagram\Client;
 
 class RefreshTokenCommand extends Command
@@ -27,7 +28,7 @@ class RefreshTokenCommand extends Command
         protected AccountRepository $accountRepository,
         protected TokenRepository $tokenRepository,
         protected Client $client,
-        private readonly LoggerInterface $logger,
+        protected EventDispatcherInterface $dispatcher,
         string $name = null
     ) {
         parent::__construct($name);
@@ -53,10 +54,8 @@ class RefreshTokenCommand extends Command
             $expireDate = new \DateTime();
             $expireDate->modify('+ ' . $tokenResult['expires_in'] . ' seconds');
             $this->tokenRepository->add($account->getUid(), ['token' => $tokenResult['access_token'], 'expires' => $expireDate->getTimestamp(), 'user_id' => $token['user_id']]);
-
-            $this->logger->info('Refresh token successfully updated');
         } catch (\Exception $e) {
-            $this->logger->error($e->getMessage());
+            $this->dispatcher->dispatch(new NotificationOnCommandExecutionFailureEvent($e->getMessage(), self::class));
             return Command::FAILURE;
         }
 

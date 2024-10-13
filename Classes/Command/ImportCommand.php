@@ -12,12 +12,13 @@ namespace Trueprogramming\Instagram\Command;
  * of the License, or any later version.
  */
 
-use Psr\Log\LoggerInterface;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Trueprogramming\Instagram\Domain\Model\Account;
 use Trueprogramming\Instagram\Domain\Repository\AccountRepository;
+use Trueprogramming\Instagram\Event\NotificationOnCommandExecutionFailureEvent;
 use Trueprogramming\Instagram\Instagram\Feed;
 use TYPO3\CMS\Core\Core\Bootstrap;
 
@@ -26,7 +27,7 @@ class ImportCommand extends Command
     public function __construct(
         protected Feed $feed,
         protected AccountRepository $accountRepository,
-        private readonly LoggerInterface $logger,
+        protected EventDispatcherInterface $dispatcher,
         string $name = null
     ) {
         parent::__construct($name);
@@ -42,10 +43,8 @@ class ImportCommand extends Command
             foreach ($accounts as $account) {
                 $this->feed->import($account);
             }
-
-            $this->logger->debug('Import finished successfully');
         } catch (\Exception $e) {
-            $this->logger->error($e->getMessage());
+            $this->dispatcher->dispatch(new NotificationOnCommandExecutionFailureEvent($e->getMessage(), self::class));
             return Command::FAILURE;
         }
 
