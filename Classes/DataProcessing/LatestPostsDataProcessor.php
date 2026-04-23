@@ -12,12 +12,16 @@ namespace Trueprogramming\Instagram\DataProcessing;
  * of the License, or any later version.
  */
 
+use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
 use Trueprogramming\Instagram\Domain\Model\Post;
 use Trueprogramming\Instagram\Domain\Repository\PostRepository;
 use TYPO3\CMS\Core\Resource\FileRepository;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Frontend\ContentObject\DataProcessorInterface;
 
+#[Autoconfigure(
+    public: true
+)]
 class LatestPostsDataProcessor implements DataProcessorInterface
 {
     public function __construct(

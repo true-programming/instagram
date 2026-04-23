@@ -12,6 +12,7 @@ namespace Trueprogramming\Instagram\Domain\Repository;
  * of the License, or any later version.
  */
 
+use Doctrine\DBAL\ParameterType;
 use Trueprogramming\Instagram\Domain\Model\Account;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
@@ -50,7 +51,7 @@ class AccountRepository
             ->select('*')
             ->from(AccountRepository::TABLE)
             ->where(
-                $qb->expr()->eq('uid', $qb->createNamedParameter($uid, \PDO::PARAM_INT))
+                $qb->expr()->eq('uid', $qb->createNamedParameter($uid, ParameterType::INTEGER))
             )
             ->executeQuery()
             ->fetchAssociative();
@@ -69,7 +70,7 @@ class AccountRepository
             ->update(self::TABLE)
             ->set('token_state', $state)
             ->where(
-                $qb->expr()->eq('uid', $qb->createNamedParameter($uid, \PDO::PARAM_INT))
+                $qb->expr()->eq('uid', $qb->createNamedParameter($uid, ParameterType::INTEGER))
             )
             ->executeStatement();
     }

@@ -12,19 +12,23 @@ namespace Trueprogramming\Instagram\Domain\Repository;
  * of the License, or any later version.
  */
 
+use Doctrine\DBAL\ParameterType;
 use Trueprogramming\Instagram\Domain\DTO\Post;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 
 class PostRepository
 {
     public const TABLE = 'tx_instagram_post';
 
+    public function __construct(
+        private ConnectionPool $connectionPool,
+    ) {}
+
     private function getQueryBuilder(): QueryBuilder
     {
-        return GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable(self::TABLE);
+        return $this->connectionPool->getQueryBuilderForTable(self::TABLE);
     }
 
     public function findAll(): ObjectStorage
@@ -50,7 +54,7 @@ class PostRepository
             ->select('*')
             ->from(self::TABLE)
             ->where(
-                $qb->expr()->eq('uid', $qb->createNamedParameter($uid, \PDO::PARAM_INT))
+                $qb->expr()->eq('uid', $qb->createNamedParameter($uid, ParameterType::INTEGER))
             )
             ->executeQuery()
             ->fetchAssociative();
@@ -68,8 +72,8 @@ class PostRepository
             ->insert(self::TABLE)
             ->values($post->toArray())
             ->executeStatement();
-        $connection = GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionByName(ConnectionPool::DEFAULT_CONNECTION_NAME);
-        return (int)$connection->lastInsertId(self::TABLE);
+        $connection = $this->connectionPool->getConnectionByName(ConnectionPool::DEFAULT_CONNECTION_NAME);
+        return (int)$connection->lastInsertId();
     }
 
     public function findByInstagramId(string $id): ?\Trueprogramming\Instagram\Domain\Model\Post
@@ -79,7 +83,7 @@ class PostRepository
             ->select('*')
             ->from(self::TABLE)
             ->where(
-                $qb->expr()->eq('instagram_id', $qb->createNamedParameter($id, \PDO::PARAM_STR))
+                $qb->expr()->eq('instagram_id', $qb->createNamedParameter($id))
             )
             ->executeQuery()
             ->fetchAssociative();
@@ -99,7 +103,7 @@ class PostRepository
             ->select('*')
             ->from(self::TABLE)
             ->where(
-                $qb->expr()->eq('account', $qb->createNamedParameter($accountUid, \PDO::PARAM_INT))
+                $qb->expr()->eq('account', $qb->createNamedParameter($accountUid, ParameterType::INTEGER))
             )
             ->orderBy('timestamp', 'DESC')
             ->setMaxResults($amount)
@@ -119,7 +123,7 @@ class PostRepository
         $qb
             ->update(self::TABLE)
             ->where(
-                $qb->expr()->eq('uid', $qb->createNamedParameter($uid, \PDO::PARAM_INT))
+                $qb->expr()->eq('uid', $qb->createNamedParameter($uid, ParameterType::INTEGER))
             );
 
         foreach ($post->toArray() as $field => $value) {

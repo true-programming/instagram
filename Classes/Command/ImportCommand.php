@@ -13,6 +13,7 @@ namespace Trueprogramming\Instagram\Command;
  */
 
 use Psr\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -22,13 +23,17 @@ use Trueprogramming\Instagram\Event\NotificationOnCommandExecutionFailureEvent;
 use Trueprogramming\Instagram\Instagram\Feed;
 use TYPO3\CMS\Core\Core\Bootstrap;
 
+#[AsCommand(
+    name: 'instagram:import',
+    description: 'Imports feeds of all configured accounts'
+)]
 class ImportCommand extends Command
 {
     public function __construct(
         protected Feed $feed,
         protected AccountRepository $accountRepository,
         protected EventDispatcherInterface $dispatcher,
-        string $name = null
+        ?string $name = null
     ) {
         parent::__construct($name);
     }

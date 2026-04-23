@@ -13,6 +13,7 @@ namespace Trueprogramming\Instagram\Command;
  */
 
 use Psr\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -22,6 +23,10 @@ use Trueprogramming\Instagram\Domain\Repository\TokenRepository;
 use Trueprogramming\Instagram\Event\NotificationOnCommandExecutionFailureEvent;
 use Trueprogramming\Instagram\Instagram\Client;
 
+#[AsCommand(
+    name: 'instagram:refreshToken',
+    description: 'Refresh token for account'
+)]
 class RefreshTokenCommand extends Command
 {
     public function __construct(
@@ -29,7 +34,7 @@ class RefreshTokenCommand extends Command
         protected TokenRepository $tokenRepository,
         protected Client $client,
         protected EventDispatcherInterface $dispatcher,
-        string $name = null
+        ?string $name = null
     ) {
         parent::__construct($name);
     }

@@ -12,8 +12,12 @@ namespace Trueprogramming\Instagram\Domain\Repository;
  * of the License, or any later version.
  */
 
+use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
 use TYPO3\CMS\Core\Registry;
 
+#[Autoconfigure(
+    public: true
+)]
 class TokenRepository
 {
     protected const REGISTRY_NAMESPACE = 'trueprogramming_instagram';

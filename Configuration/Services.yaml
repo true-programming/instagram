@@ -7,21 +7,3 @@ services:
   Trueprogramming\Instagram\:
     resource: '../Classes/*'
     exclude: '../Classes/Domain/Model/*'
-
-  Trueprogramming\Instagram\Domain\Repository\TokenRepository:
-    public: true
-
-  Trueprogramming\Instagram\DataProcessing\LatestPostsDataProcessor:
-    public: true
-
-  Trueprogramming\Instagram\Command\ImportCommand:
-    tags:
-      - name: 'console.command'
-        command: 'instagram:import'
-        description: 'Imports feeds of all configured accounts'
-
-  Trueprogramming\Instagram\Command\RefreshTokenCommand:
-    tags:
-      - name: 'console.command'
-        command: 'instagram:refreshToken'
-        description: 'Refresh token for account'

@@ -106,11 +106,10 @@ final class DashboardController extends ActionController
             }
         }
 
-        $this->view->assign('accounts', $accounts);
-        $this->view->assign('returnUrl', $this->uriBuilder->reset()->uriFor('show'));
-        $this->view->assign('returnUrl', $this->uriBuilder->reset()->uriFor('show'));
-        $this->moduleTemplate->setContent($this->view->render());
-        return $this->htmlResponse($this->moduleTemplate->renderContent());
+        $this->moduleTemplate->assign('accounts', $accounts);
+        $this->moduleTemplate->assign('returnUrl', $this->uriBuilder->reset()->uriFor('show'));
+        $this->moduleTemplate->assign('returnUrl', $this->uriBuilder->reset()->uriFor('show'));
+        return $this->moduleTemplate->renderResponse('Dashboard/Show.html');
     }
 
     public function importFeedAction(int $account): ResponseInterface
@@ -157,10 +156,9 @@ final class DashboardController extends ActionController
 
     private function checkAccessForPage(int $uid): bool
     {
-        /** @var array|null $page */
         $page = $this->pageRepository->getPage($uid);
 
-        if ($page === null) {
+        if ($page) {
             return false;
         }
 
