@@ -35,7 +35,7 @@ class Feed
     public function import(Account $account): bool
     {
         $token = $this->tokenRepository->findByUid($account->getUid());
-        $feed = $this->client->getFeedFromUserId($token['token'], $token['user_id']);
+        $feed = $this->client->getFeed($token['token']);
 
         $errors = false;
         foreach ($feed['data'] as $feedItem) {

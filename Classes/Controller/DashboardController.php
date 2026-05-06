@@ -158,7 +158,7 @@ final class DashboardController extends ActionController
     {
         $page = $this->pageRepository->getPage($uid);
 
-        if ($page) {
+        if (empty($page)) {
             return false;
         }
 

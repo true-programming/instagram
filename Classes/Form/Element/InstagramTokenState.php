@@ -16,35 +16,37 @@ use Trueprogramming\Instagram\Domain\Model\Account;
 use Trueprogramming\Instagram\Domain\Repository\TokenRepository;
 use Trueprogramming\Instagram\Instagram\Client;
 use TYPO3\CMS\Backend\Form\Element\AbstractFormElement;
-use TYPO3\CMS\Fluid\View\StandaloneView;
+use TYPO3\CMS\Core\View\ViewFactoryInterface;
 
 class InstagramTokenState extends AbstractFormElement
 {
     private const TEMPLATE = 'EXT:instagram/Resources/Private/Templates/Form/Element/InstagramTokenState.html';
 
     public function __construct(
-        private readonly StandaloneView $view,
+        private readonly ViewFactoryInterface $viewFactory,
         private readonly TokenRepository $tokenRepository,
     ) {}
 
     public function render(): array
     {
-        $this->view->setTemplatePathAndFilename(self::TEMPLATE);
         $result = $this->initializeResultArray();
 
-        if (is_int($this->data['databaseRow']['uid'])) {
-            $account = Account::fromDB($this->data['databaseRow']);
-
-            $authenticationUri = Client::buildAuthenticationLink($account->getAppId(), $account->getAppReturnUrl() . '/&state=' . $account->getUid());
-            $token = $this->tokenRepository->findByUid($account->getUid());
-            $this->view->assignMultiple([
-                'account' => $account,
-                'authenticationUri' => $authenticationUri,
-                'token' => $token,
-            ]);
+        if (!is_int($this->data['databaseRow']['uid'])) {
+            return $result;
         }
 
-        $result['html'] = $this->view->render();
+        $account = Account::fromDB($this->data['databaseRow']);
+        $authenticationUri = Client::buildAuthenticationLink($account->getAppId(), $account->getAppReturnUrl() . '/&state=' . $account->getUid());
+        $token = $this->tokenRepository->findByUid($account->getUid());
+
+        $view = $this->viewFactory->create($this->data['request'] ?? $GLOBALS['TYPO3_REQUEST']);
+        $view->assignMultiple([
+            'account' => $account,
+            'authenticationUri' => $authenticationUri,
+            'token' => $token,
+        ]);
+        $result['html'] = $view->render(self::TEMPLATE);
+
         return $result;
     }
 }

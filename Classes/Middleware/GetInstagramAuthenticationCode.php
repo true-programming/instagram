@@ -62,7 +62,7 @@ class GetInstagramAuthenticationCode implements MiddlewareInterface
 
             $expireDate = new \DateTime();
             $expireDate->modify('+ ' . $instagramGraphApi['expires_in'] . ' seconds');
-            $this->tokenRepository->add($account->getUid(), ['token' => $instagramGraphApi['access_token'], 'expires' => $expireDate->getTimestamp(), 'user_id' => $instagramApi['user_id']]);
+            $this->tokenRepository->add($account->getUid(), ['token' => $instagramGraphApi['access_token'], 'expires' => $expireDate->getTimestamp(), 'user_id' => $instagramApi['user_id'] ?? 0]);
 
             return new RedirectResponse('/', 301);
         }

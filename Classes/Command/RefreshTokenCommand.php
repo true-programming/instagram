@@ -58,7 +58,7 @@ class RefreshTokenCommand extends Command
 
             $expireDate = new \DateTime();
             $expireDate->modify('+ ' . $tokenResult['expires_in'] . ' seconds');
-            $this->tokenRepository->add($account->getUid(), ['token' => $tokenResult['access_token'], 'expires' => $expireDate->getTimestamp(), 'user_id' => $token['user_id']]);
+            $this->tokenRepository->add($account->getUid(), ['token' => $tokenResult['access_token'], 'expires' => $expireDate->getTimestamp(), 'user_id' => $token['user_id'] ?? 0]);
         } catch (\Exception $e) {
             $this->dispatcher->dispatch(new NotificationOnCommandExecutionFailureEvent($e->getMessage(), self::class));
             return Command::FAILURE;

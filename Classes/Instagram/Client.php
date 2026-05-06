@@ -18,6 +18,7 @@ use TYPO3\CMS\Core\Http\Uri;
 
 class Client
 {
+    private const INSTAGRAM_AUTH_URI = 'https://www.instagram.com';
     private const INSTAGRAM_API_URI = 'https://api.instagram.com';
     private const INSTAGRAM_GRAPH_URI = 'https://graph.instagram.com';
     private const INSTAGRAM_API_AUTHORIZATION_PATH = 'oauth/authorize';
@@ -32,10 +33,10 @@ class Client
 
     public static function buildAuthenticationLink(string $clientId, string $redirectUri): string
     {
-        $uri = new Uri(self::INSTAGRAM_API_URI);
+        $uri = new Uri(self::INSTAGRAM_AUTH_URI);
         return (string)$uri
             ->withPath(self::INSTAGRAM_API_AUTHORIZATION_PATH)
-            ->withQuery('client_id=' . $clientId . '&redirect_uri=' . $redirectUri . '&scope=user_profile,user_media&response_type=code');
+            ->withQuery('client_id=' . $clientId . '&redirect_uri=' . $redirectUri . '&scope=instagram_basic&response_type=code');
     }
 
     public function getInstagramApiAccessToken(Account $account, string $code): array
@@ -60,7 +61,7 @@ class Client
 
         $result = json_decode($request->getBody()->getContents(), true);
 
-        if ($result['access_token'] === '' || $result['user_id'] === '') {
+        if (empty($result['access_token'])) {
             throw new \Exception('Instagram api error: No token in result', 1701161224);
         }
 
@@ -89,11 +90,11 @@ class Client
         return $result;
     }
 
-    public function getFeedFromUserId(string $token, int $userId): array
+    public function getFeed(string $token): array
     {
         $uri = (new Uri(self::INSTAGRAM_GRAPH_URI))
-            ->withPath($userId . '/' . self::INSTAGRAM_GRAPH_MEDIA_PATH)
-            ->withQuery('fields=media,caption,media_type,media_url,permalink,thumbnail_url,timestamp,username,children&access_token=' . $token);
+            ->withPath('me/' . self::INSTAGRAM_GRAPH_MEDIA_PATH)
+            ->withQuery('fields=caption,media_type,media_url,permalink,thumbnail_url,timestamp,username,children&access_token=' . $token);
 
         $request = $this->requestFactory->request((string)$uri);
 
