@@ -14,7 +14,6 @@ return [
         'default_sortby' => 'timestamp DESC',
         'iconfile' => 'EXT:instagram/Resources/Public/Icons/module.png',
         'origUid' => 't3_origuid',
-        'searchFields' => 'caption',
         'enablecolumns' => [
             'disabled' => 'hidden',
         ],
@@ -32,6 +31,7 @@ return [
             'config' => [
                 'type' => 'text',
                 'readOnly' => true,
+                'searchable' => true,
             ],
         ],
         'media_type' => [

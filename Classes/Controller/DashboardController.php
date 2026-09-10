@@ -87,10 +87,10 @@ final class DashboardController extends ActionController
         /** @var RouteResult $routing */
         $routing = $request->getAttribute('routing');
         if ($routing->getRoute()->getOptions()['action'] === 'show') {
-            $shortCut = $buttonBar->makeShortcutButton();
-            $shortCut->setDisplayName(LocalizationUtility::translate('button.shortcut.label', 'instagram'));
-            $shortCut->setRouteIdentifier('trueprogramming-instagram');
-            $buttonBar->addButton($shortCut);
+            $this->moduleTemplate->getDocHeaderComponent()->setShortcutContext(
+                routeIdentifier: 'trueprogramming-instagram',
+                displayName: LocalizationUtility::translate('button.shortcut.label', 'instagram'),
+            );
         }
     }
 

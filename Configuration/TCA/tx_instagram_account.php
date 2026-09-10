@@ -14,7 +14,6 @@ return [
         'default_sortby' => 'name',
         'iconfile' => 'EXT:instagram/Resources/Public/Icons/module.png',
         'origUid' => 't3_origuid',
-        'searchFields' => 'name',
         'enablecolumns' => [
             'disabled' => 'hidden',
         ],
@@ -35,6 +34,7 @@ return [
             'config' => [
                 'type' => 'input',
                 'required' => true,
+                'searchable' => true,
             ],
         ],
         'username' => [
