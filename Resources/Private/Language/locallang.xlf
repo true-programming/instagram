@@ -41,6 +41,12 @@
 			<trans-unit id="dashboard.show.import.title">
 				<source>import feed</source>
 			</trans-unit>
+			<trans-unit id="dashboard.show.account.label">
+				<source>Account</source>
+			</trans-unit>
+			<trans-unit id="dashboard.show.actions.label">
+				<source>Actions</source>
+			</trans-unit>
 			<trans-unit id="dashboard.show.tokenState.label">
 				<source>Token state</source>
 			</trans-unit>

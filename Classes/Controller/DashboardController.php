@@ -108,7 +108,6 @@ final class DashboardController extends ActionController
 
         $this->moduleTemplate->assign('accounts', $accounts);
         $this->moduleTemplate->assign('returnUrl', $this->uriBuilder->reset()->uriFor('show'));
-        $this->moduleTemplate->assign('returnUrl', $this->uriBuilder->reset()->uriFor('show'));
         return $this->moduleTemplate->renderResponse('Dashboard/Show.html');
     }
 

@@ -4,7 +4,7 @@
     xmlns:be="http://typo3.org/ns/TYPO3/CMS/Backend/ViewHelpers"
     data-namespace-typo3-fluid="true">
 
-<f:layout name="Default"/>
+<f:layout name="Module"/>
 
 <f:section name="Content">
     <h1>
@@ -15,52 +15,64 @@
 
     <f:if condition="{f:count(subject: accounts)} > 0">
         <f:then>
-            <table class="table table-striped">
-                <f:for each="{accounts}" as="account">
-                    <tr>
-                        <td>
-                            <h3>{account.name}</h3>
-
-                            <f:if condition="{account.TokenState}">
-                                <f:then>
-                                    <span class="badge badge-success">
-                                        <f:translate key="dashboard.show.tokenState.state.valid"/>
-                                    </span>
-                                </f:then>
-
-                                <f:else>
-                                    <span class="badge badge-warning">
-                                        <f:translate key="dashboard.show.tokenState.state.invalid"/>
-                                    </span>
-                                </f:else>
-                            </f:if>
-                        </td>
-
-                        <td>
-                            <a href="{be:uri.editRecord(uid: account.uid, table: 'tx_instagram_account', returnUrl: returnUrl)}" class="btn btn-primary">
-                                <core:icon identifier="actions-document-open"/>
-                                <f:translate key="dashboard.show.edit.label"/>
-                            </a>
-
-                            <f:if condition="{account.TokenState}">
-                                <f:link.action action="importFeed" class="btn btn-primary" arguments="{account: account.uid}" title="{f:translate(key: 'dashboard.show.import.title')}">
-                                    <core:icon identifier="actions-database-import"/>
-                                </f:link.action>
-
-                                <f:link.action action="revokeToken" class="btn btn-secondary" arguments="{account: account.uid}" title="{f:translate(key: 'dashboard.show.revoke.title')}">
-                                    <core:icon identifier="actions-unlink"/>
-                                </f:link.action>
-                            </f:if>
-                        </td>
-                    </tr>
-                </f:for>
-            </table>
+            <div class="table-fit">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th><f:translate key="dashboard.show.account.label"/></th>
+                            <th><f:translate key="dashboard.show.tokenState.label"/></th>
+                            <th class="col-control"><f:translate key="dashboard.show.actions.label"/></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <f:for each="{accounts}" as="account">
+                            <tr>
+                                <td>
+                                    <a href="{be:uri.editRecord(uid: account.uid, table: 'tx_instagram_account', returnUrl: returnUrl)}">
+                                        <core:iconForRecord table="tx_instagram_account" row="{uid: account.uid}"/>
+                                        {account.name}
+                                    </a>
+                                </td>
+                                <td>
+                                    <f:if condition="{account.TokenState}">
+                                        <f:then>
+                                            <span class="badge badge-success">
+                                                <f:translate key="dashboard.show.tokenState.state.valid"/>
+                                            </span>
+                                        </f:then>
+                                        <f:else>
+                                            <span class="badge badge-warning">
+                                                <f:translate key="dashboard.show.tokenState.state.invalid"/>
+                                            </span>
+                                        </f:else>
+                                    </f:if>
+                                </td>
+                                <td class="col-control">
+                                    <div class="btn-group">
+                                        <a href="{be:uri.editRecord(uid: account.uid, table: 'tx_instagram_account', returnUrl: returnUrl)}" class="btn btn-default" title="{f:translate(key: 'dashboard.show.edit.label')}">
+                                            <core:icon identifier="actions-open"/>
+                                        </a>
+                                        <f:if condition="{account.TokenState}">
+                                            <f:link.action action="importFeed" class="btn btn-default" arguments="{account: account.uid}" title="{f:translate(key: 'dashboard.show.import.title')}">
+                                                <core:icon identifier="actions-database-import"/>
+                                            </f:link.action>
+                                            <f:link.action action="revokeToken" class="btn btn-default" arguments="{account: account.uid}" title="{f:translate(key: 'dashboard.show.revoke.title')}">
+                                                <core:icon identifier="actions-unlink"/>
+                                            </f:link.action>
+                                        </f:if>
+                                    </div>
+                                </td>
+                            </tr>
+                        </f:for>
+                    </tbody>
+                </table>
+            </div>
         </f:then>
 
         <f:else>
-            <h4>
+            <f:be.infobox state="-1">
                 <f:translate key="dashboard.show.noAccounts.label"/>
-            </h4>
+            </f:be.infobox>
         </f:else>
     </f:if>
 </f:section>

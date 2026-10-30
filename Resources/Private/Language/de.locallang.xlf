@@ -52,6 +52,14 @@
 				<source>import feed</source>
 				<target>Import Feed</target>
 			</trans-unit>
+			<trans-unit id="dashboard.show.account.label">
+				<source>Account</source>
+				<target>Account</target>
+			</trans-unit>
+			<trans-unit id="dashboard.show.actions.label">
+				<source>Actions</source>
+				<target>Aktionen</target>
+			</trans-unit>
 			<trans-unit id="dashboard.show.tokenState.label">
 				<source>Token state</source>
 				<target>Token Status</target>
