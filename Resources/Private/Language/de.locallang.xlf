@@ -42,7 +42,7 @@
 			</trans-unit>
 			<trans-unit id="dashboard.show.edit.label">
 				<source>edit</source>
-				<source>bearbeiten</source>
+				<target>bearbeiten</target>
 			</trans-unit>
 			<trans-unit id="dashboard.show.revoke.title">
 				<source>revoke token</source>

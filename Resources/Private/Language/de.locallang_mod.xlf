@@ -9,12 +9,12 @@
 		<body>
 			<trans-unit id="mlang_tabs_tab">
 				<source>Instagram Management</source>
-				<source>Instagram Verwaltung</source>
+				<target>Instagram Verwaltung</target>
 			</trans-unit>
 
 			<trans-unit id="mlang_tabs_tab.dashboard">
 				<source>Instagram Management - Dashboard</source>
-				<source>Instagram Verwaltung - Übersicht</source>
+				<target>Instagram Verwaltung - Übersicht</target>
 			</trans-unit>
 		</body>
 	</file>

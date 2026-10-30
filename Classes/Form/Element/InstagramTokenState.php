@@ -16,6 +16,7 @@ use Trueprogramming\Instagram\Domain\Model\Account;
 use Trueprogramming\Instagram\Domain\Repository\TokenRepository;
 use Trueprogramming\Instagram\Instagram\Client;
 use TYPO3\CMS\Backend\Form\Element\AbstractFormElement;
+use TYPO3\CMS\Core\View\ViewFactoryData;
 use TYPO3\CMS\Core\View\ViewFactoryInterface;
 
 class InstagramTokenState extends AbstractFormElement
@@ -39,13 +40,16 @@ class InstagramTokenState extends AbstractFormElement
         $authenticationUri = Client::buildAuthenticationLink($account->getAppId(), $account->getAppReturnUrl() . '/&state=' . $account->getUid());
         $token = $this->tokenRepository->findByUid($account->getUid());
 
-        $view = $this->viewFactory->create($this->data['request'] ?? $GLOBALS['TYPO3_REQUEST']);
+        $view = $this->viewFactory->create(new ViewFactoryData(
+            templatePathAndFilename: self::TEMPLATE,
+            request: $this->data['request'] ?? $GLOBALS['TYPO3_REQUEST'],
+        ));
         $view->assignMultiple([
             'account' => $account,
             'authenticationUri' => $authenticationUri,
             'token' => $token,
         ]);
-        $result['html'] = $view->render(self::TEMPLATE);
+        $result['html'] = $view->render();
 
         return $result;
     }
