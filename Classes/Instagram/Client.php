@@ -36,7 +36,7 @@ class Client
         $uri = new Uri(self::INSTAGRAM_AUTH_URI);
         return (string)$uri
             ->withPath(self::INSTAGRAM_API_AUTHORIZATION_PATH)
-            ->withQuery('client_id=' . $clientId . '&redirect_uri=' . $redirectUri . '&scope=instagram_basic&response_type=code');
+            ->withQuery('client_id=' . $clientId . '&redirect_uri=' . $redirectUri . '&scope=instagram_business_basic&response_type=code');
     }
 
     public function getInstagramApiAccessToken(Account $account, string $code): array
