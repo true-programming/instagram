@@ -81,6 +81,14 @@ class Account
         return $this->appReturnUrl;
     }
 
+    /**
+     * Instagram requires the exact same redirect URI for the authorization and the token request
+     */
+    public function getRedirectUri(): string
+    {
+        return rtrim($this->appReturnUrl, '/') . '/';
+    }
+
     public function getTokenState(): int
     {
         return $this->tokenState;

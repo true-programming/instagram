@@ -48,7 +48,7 @@ class Client
                 'form_params' => [
                     'client_id' => $account->getAppId(),
                     'client_secret' => $account->getAppSecret(),
-                    'redirect_uri' => $account->getAppReturnUrl(),
+                    'redirect_uri' => $account->getRedirectUri(),
                     'code' => $code,
                     'grant_type' => 'authorization_code',
                 ],
@@ -60,6 +60,8 @@ class Client
         }
 
         $result = json_decode($request->getBody()->getContents(), true);
+        // The Instagram API with Instagram Login may wrap the token in a data list
+        $result = $result['data'][0] ?? $result;
 
         if (empty($result['access_token'])) {
             throw new \Exception('Instagram api error: No token in result', 1701161224);

@@ -46,7 +46,7 @@ class InstagramTokenState extends AbstractFormElement
         }
 
         $account = Account::fromDB($this->data['databaseRow']);
-        $authenticationUri = Client::buildAuthenticationLink($account->getAppId(), $account->getAppReturnUrl() . '/&state=' . $account->getUid());
+        $authenticationUri = Client::buildAuthenticationLink($account->getAppId(), $account->getRedirectUri() . '&state=' . $account->getUid());
         $token = $this->tokenRepository->findByUid($account->getUid());
 
         $view = $this->createView();
