@@ -16,17 +16,26 @@ use Trueprogramming\Instagram\Domain\Model\Account;
 use Trueprogramming\Instagram\Domain\Repository\TokenRepository;
 use Trueprogramming\Instagram\Instagram\Client;
 use TYPO3\CMS\Backend\Form\Element\AbstractFormElement;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\View\ViewFactoryData;
 use TYPO3\CMS\Core\View\ViewFactoryInterface;
+use TYPO3\CMS\Fluid\View\StandaloneView;
 
 class InstagramTokenState extends AbstractFormElement
 {
     private const TEMPLATE = 'EXT:instagram/Resources/Private/Templates/Form/Element/InstagramTokenState.html';
 
     public function __construct(
-        private readonly ViewFactoryInterface $viewFactory,
         private readonly TokenRepository $tokenRepository,
     ) {}
+
+    /**
+     * TYPO3 v12 only instantiates nodes via dependency injection if they provide this method
+     */
+    public function setData(array $data): void
+    {
+        $this->data = $data;
+    }
 
     public function render(): array
     {
@@ -40,10 +49,7 @@ class InstagramTokenState extends AbstractFormElement
         $authenticationUri = Client::buildAuthenticationLink($account->getAppId(), $account->getAppReturnUrl() . '/&state=' . $account->getUid());
         $token = $this->tokenRepository->findByUid($account->getUid());
 
-        $view = $this->viewFactory->create(new ViewFactoryData(
-            templatePathAndFilename: self::TEMPLATE,
-            request: $this->data['request'] ?? $GLOBALS['TYPO3_REQUEST'],
-        ));
+        $view = $this->createView();
         $view->assignMultiple([
             'account' => $account,
             'authenticationUri' => $authenticationUri,
@@ -52,5 +58,22 @@ class InstagramTokenState extends AbstractFormElement
         $result['html'] = $view->render();
 
         return $result;
+    }
+
+    /**
+     * The view factory exists since TYPO3 v13, v12 still needs the standalone view
+     */
+    private function createView(): object
+    {
+        if (interface_exists(ViewFactoryInterface::class)) {
+            return GeneralUtility::makeInstance(ViewFactoryInterface::class)->create(new ViewFactoryData(
+                templatePathAndFilename: self::TEMPLATE,
+                request: $this->data['request'] ?? $GLOBALS['TYPO3_REQUEST'],
+            ));
+        }
+
+        $view = GeneralUtility::makeInstance(StandaloneView::class);
+        $view->setTemplatePathAndFilename(self::TEMPLATE);
+        return $view;
     }
 }

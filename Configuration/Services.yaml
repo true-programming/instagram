@@ -7,3 +7,8 @@ services:
   Trueprogramming\Instagram\:
     resource: '../Classes/*'
     exclude: '../Classes/Domain/Model/*'
+
+  # TYPO3 v12 creates FormEngine nodes via makeInstance(), which needs a public service
+  Trueprogramming\Instagram\Form\Element\InstagramTokenState:
+    public: true
+    shared: false

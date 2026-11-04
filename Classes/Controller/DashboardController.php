@@ -87,10 +87,20 @@ final class DashboardController extends ActionController
         /** @var RouteResult $routing */
         $routing = $request->getAttribute('routing');
         if ($routing->getRoute()->getOptions()['action'] === 'show') {
-            $this->moduleTemplate->getDocHeaderComponent()->setShortcutContext(
-                routeIdentifier: 'trueprogramming-instagram',
-                displayName: LocalizationUtility::translate('button.shortcut.label', 'instagram'),
-            );
+            $docHeader = $this->moduleTemplate->getDocHeaderComponent();
+            $displayName = LocalizationUtility::translate('button.shortcut.label', 'instagram');
+            // setShortcutContext() exists since TYPO3 v14, older versions need the shortcut button
+            if (method_exists($docHeader, 'setShortcutContext')) {
+                $docHeader->setShortcutContext(
+                    routeIdentifier: 'trueprogramming-instagram',
+                    displayName: $displayName,
+                );
+            } else {
+                $shortCut = $buttonBar->makeShortcutButton();
+                $shortCut->setDisplayName($displayName);
+                $shortCut->setRouteIdentifier('trueprogramming-instagram');
+                $buttonBar->addButton($shortCut);
+            }
         }
     }
 
