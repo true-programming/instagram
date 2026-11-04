@@ -94,33 +94,34 @@ return [
                 'allowed' => ['jpg', 'mp4'],
                 'readOnly' => true,
                 'overrideChildTca' => [
+                    // File type values as integers: the FileType enum does not exist in TYPO3 v12
                     'types' => [
                         0 => [
                             'showitem' => '
                                 --palette--;;filePalette
                             ',
                         ],
-                        \TYPO3\CMS\Core\Resource\FileType::TEXT->value => [
+                        1 => [ // FileType::TEXT
                             'showitem' => '
                                 --palette--;;filePalette
                             ',
                         ],
-                        \TYPO3\CMS\Core\Resource\FileType::IMAGE->value => [
+                        2 => [ // FileType::IMAGE
                             'showitem' => '
                                 --palette--;;filePalette
                             ',
                         ],
-                        \TYPO3\CMS\Core\Resource\FileType::AUDIO->value => [
+                        3 => [ // FileType::AUDIO
                             'showitem' => '
                                 --palette--;;filePalette
                             ',
                         ],
-                        \TYPO3\CMS\Core\Resource\FileType::VIDEO->value => [
+                        4 => [ // FileType::VIDEO
                             'showitem' => '
                                 --palette--;;filePalette
                             ',
                         ],
-                        \TYPO3\CMS\Core\Resource\FileType::APPLICATION->value => [
+                        5 => [ // FileType::APPLICATION
                             'showitem' => '
                                 --palette--;;filePalette
                             ',
@@ -142,27 +143,27 @@ return [
                                 --palette--;;filePalette
                             ',
                         ],
-                        \TYPO3\CMS\Core\Resource\FileType::TEXT->value => [
+                        1 => [ // FileType::TEXT
                             'showitem' => '
                                 --palette--;;filePalette
                             ',
                         ],
-                        \TYPO3\CMS\Core\Resource\FileType::IMAGE->value => [
+                        2 => [ // FileType::IMAGE
                             'showitem' => '
                                 --palette--;;filePalette
                             ',
                         ],
-                        \TYPO3\CMS\Core\Resource\FileType::AUDIO->value => [
+                        3 => [ // FileType::AUDIO
                             'showitem' => '
                                 --palette--;;filePalette
                             ',
                         ],
-                        \TYPO3\CMS\Core\Resource\FileType::VIDEO->value => [
+                        4 => [ // FileType::VIDEO
                             'showitem' => '
                                 --palette--;;filePalette
                             ',
                         ],
-                        \TYPO3\CMS\Core\Resource\FileType::APPLICATION->value => [
+                        5 => [ // FileType::APPLICATION
                             'showitem' => '
                                 --palette--;;filePalette
                             ',
