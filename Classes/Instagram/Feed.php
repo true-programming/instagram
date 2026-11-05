@@ -39,6 +39,11 @@ class Feed
 
         $errors = false;
         foreach ($feed['data'] as $feedItem) {
+            // Instagram omits media_url for some posts (e.g. reels with copyrighted audio)
+            if (empty($feedItem['media_url'])) {
+                continue;
+            }
+
             $existingPost = $this->postRepository->findByInstagramId($feedItem['id']);
             $feedPost = Post::fromFeed($feedItem, $account->getUid());
 
